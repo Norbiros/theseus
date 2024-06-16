@@ -151,7 +151,7 @@ import { handleError, useBreadcrumbs, useLoading } from '@/store/state'
 import { isOffline, showProfileInFolder } from '@/helpers/utils.js'
 import ContextMenu from '@/components/ui/ContextMenu.vue'
 import { mixpanel_track } from '@/helpers/mixpanel'
-import { convertFileSrc } from '@tauri-apps/api/tauri'
+import { convertFileSrc } from '@tauri-apps/api/core'
 import { useFetch } from '@/helpers/fetch'
 import { handleSevereError } from '@/store/error.js'
 

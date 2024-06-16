@@ -1,6 +1,7 @@
 //! Theseus state management system
 use serde::{Deserialize, Serialize};
 use std::{collections::HashMap, path::PathBuf, sync::Arc};
+use tauri::EventTarget;
 use tokio::sync::OnceCell;
 use tokio::sync::RwLock;
 use uuid::Uuid;
@@ -114,7 +115,8 @@ impl Drop for LoadingBarId {
                         let fraction = bar.current / bar.total;
 
                         use tauri::Manager;
-                        let _ = event_state.app.emit_all(
+                        let _ = event_state.app.emit_to(
+                            EventTarget::any(),
                             "loading",
                             LoadingPayload {
                                 fraction: None,

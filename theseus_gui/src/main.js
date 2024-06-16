@@ -9,7 +9,7 @@ import FloatingVue from 'floating-vue'
 import { get_opening_command, initialize_state } from '@/helpers/state'
 import loadCssMixin from './mixins/macCssFix.js'
 import { get } from '@/helpers/settings'
-import { invoke } from '@tauri-apps/api'
+import { invoke } from '@tauri-apps/api/core'
 import { isDev } from './helpers/utils.js'
 
 const pinia = createPinia()

@@ -25,8 +25,8 @@ import ModrinthLoadingIndicator from '@/components/modrinth-loading-indicator'
 import { handleError, useNotifications } from '@/store/notifications.js'
 import { offline_listener, command_listener, warning_listener } from '@/helpers/events.js'
 import { MinimizeIcon, MaximizeIcon, ChatIcon } from '@/assets/icons'
-import { type } from '@tauri-apps/api/os'
-import { appWindow } from '@tauri-apps/api/window'
+import { type } from '@tauri-apps/plugin-os'
+import { getCurrent } from '@tauri-apps/api/window'
 import { isDev, getOS, isOffline, showLauncherLogsFolder } from '@/helpers/utils.js'
 import {
   mixpanel_track,
@@ -39,7 +39,7 @@ import { getVersion } from '@tauri-apps/api/app'
 import { window as TauriWindow } from '@tauri-apps/api'
 import { TauriEvent } from '@tauri-apps/api/event'
 import { await_sync, check_safe_loading_bars_complete } from './helpers/state'
-import { confirm } from '@tauri-apps/api/dialog'
+import { confirm } from '@tauri-apps/plugin-dialog'
 import URLConfirmModal from '@/components/ui/URLConfirmModal.vue'
 import OnboardingScreen from '@/components/ui/tutorial/OnboardingScreen.vue'
 import { install_from_file } from './helpers/pack'
@@ -76,7 +76,7 @@ defineExpose({
     showOnboarding.value = !fully_onboarded
 
     nativeDecorations.value = native_decorations
-    if (os.value !== 'MacOS') appWindow.setDecorations(native_decorations)
+    if (os.value !== 'MacOS') getCurrent().setDecorations(native_decorations)
 
     themeStore.setThemeState(theme)
     themeStore.collapsedNavigation = collapsed_navigation
@@ -349,10 +349,10 @@ command_listener(async (e) => {
           </section>
         </div>
         <section v-if="!nativeDecorations" class="window-controls">
-          <Button class="titlebar-button" icon-only @click="() => appWindow.minimize()">
+          <Button class="titlebar-button" icon-only @click="() => getCurrent().minimize()">
             <MinimizeIcon />
           </Button>
-          <Button class="titlebar-button" icon-only @click="() => appWindow.toggleMaximize()">
+          <Button class="titlebar-button" icon-only @click="() => getCurrent().toggleMaximize()">
             <MaximizeIcon />
           </Button>
           <Button

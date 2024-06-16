@@ -6,7 +6,7 @@ import {
 } from '@/helpers/profile'
 import { useFetch } from '@/helpers/fetch.js'
 import { handleError } from '@/store/notifications.js'
-import { invoke } from '@tauri-apps/api/tauri'
+import { invoke } from '@tauri-apps/api/core'
 
 export async function isDev() {
   return await invoke('is_dev')

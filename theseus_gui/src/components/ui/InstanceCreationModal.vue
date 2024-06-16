@@ -215,8 +215,8 @@ import {
 import { computed, onUnmounted, ref, shallowRef } from 'vue'
 import { get_loaders } from '@/helpers/tags'
 import { create } from '@/helpers/profile'
-import { open } from '@tauri-apps/api/dialog'
-import { tauri } from '@tauri-apps/api'
+import { open } from '@tauri-apps/plugin-dialog'
+import { convertFileSrc } from '@tauri-apps/api/core'
 import {
   get_game_versions,
   get_fabric_versions,
@@ -392,7 +392,7 @@ const upload_icon = async () => {
   })
 
   if (!icon.value) return
-  display_icon.value = tauri.convertFileSrc(icon.value)
+  display_icon.value = convertFileSrc(icon.value)
 }
 
 const reset_icon = () => {

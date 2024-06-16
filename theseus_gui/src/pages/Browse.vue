@@ -30,7 +30,7 @@ import SplashScreen from '@/components/ui/SplashScreen.vue'
 import IncompatibilityWarningModal from '@/components/ui/IncompatibilityWarningModal.vue'
 import { useFetch } from '@/helpers/fetch.js'
 import { check_installed, get, get as getInstance } from '@/helpers/profile.js'
-import { convertFileSrc } from '@tauri-apps/api/tauri'
+import { convertFileSrc } from '@tauri-apps/api/core'
 import { isOffline } from '@/helpers/utils'
 import { offline_listener } from '@/helpers/events'
 

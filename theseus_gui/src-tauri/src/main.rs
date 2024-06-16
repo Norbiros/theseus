@@ -3,7 +3,7 @@
     windows_subsystem = "windows"
 )]
 
-use tauri::Manager;
+use tauri::{EventTarget, Manager};
 use theseus::prelude::*;
 
 mod api;
@@ -50,8 +50,6 @@ struct Payload {
 // if Tauri app is called with arguments, then those arguments will be treated as commands
 // ie: deep links or filepaths for .mrpacks
 fn main() {
-    tauri_plugin_deep_link::prepare("com.modrinth.theseus");
-
     /*
         tracing is set basd on the environment variable RUST_LOG=xxx, depending on the amount of logs to show
             ERROR > WARN > INFO > DEBUG > TRACE
@@ -72,24 +70,34 @@ fn main() {
 
     let mut builder = tauri::Builder::default();
     builder = builder
+        .plugin(tauri_plugin_os::init())
+        .plugin(tauri_plugin_dialog::init())
+        .plugin(tauri_plugin_deep_link::init())
         .plugin(tauri_plugin_single_instance::init(|app, argv, cwd| {
-            app.emit_all("single-instance", Payload { args: argv, cwd })
+            app.emit_to(EventTarget::any(),"single-instance", Payload { args: argv, cwd })
                 .unwrap();
         }))
+        .plugin(tauri_plugin_shell::init())
+        // Custom plugins
+        .plugin(api::auth::init())
+        .plugin(api::import::init())
+        .plugin(api::jre::init())
+        .plugin(api::logs::init())
+        .plugin(api::metadata::init())
+        .plugin(api::mr_auth::init())
+        .plugin(api::pack::init())
+        .plugin(api::process::init())
+        .plugin(api::profile::init())
+        .plugin(api::profile_create::init())
+        .plugin(api::settings::init())
+        .plugin(api::tags::init())
+        .plugin(api::utils::init()) 
         .plugin(tauri_plugin_window_state::Builder::default().build())
         .setup(|app| {
-            // Register deep link handler, allowing reading of modrinth:// links
-            if let Err(e) = tauri_plugin_deep_link::register(
-                "modrinth",
-                |request: String| {
-                    tauri::async_runtime::spawn(api::utils::handle_command(
-                        request,
-                    ));
-                },
-            ) {
-                // Allow it to fail- see https://github.com/FabianLars/tauri-plugin-deep-link/issues/19
-                tracing::error!("Error registering deep link handler: {}", e);
-            }
+            app.listen("deep-link://new-url", |url| {
+                let request = url.payload().to_string();
+                tauri::async_runtime::spawn(api::utils::handle_command(request));
+            });
 
             let win = app.get_window("main").unwrap();
             #[cfg(not(target_os = "linux"))]

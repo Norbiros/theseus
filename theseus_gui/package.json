@@ -13,7 +13,9 @@
     "fix": "eslint --fix --ext .js,.vue,.ts,.jsx,.tsx,.html,.vue . && prettier --write ."
   },
   "dependencies": {
-    "@tauri-apps/api": "^1.5.3",
+    "@tauri-apps/api": "^2.0.0-beta.13",
+    "@tauri-apps/plugin-dialog": "2.0.0-beta.5",
+    "@tauri-apps/plugin-os": "2.0.0-beta.5",
     "dayjs": "^1.11.10",
     "floating-vue": "^5.2.2",
     "mixpanel-browser": "^2.49.0",
@@ -29,7 +31,7 @@
   },
   "devDependencies": {
     "@rollup/plugin-alias": "^5.1.0",
-    "@tauri-apps/cli": "^1.5.11",
+    "@tauri-apps/cli": "^2.0.0-beta.20",
     "@vitejs/plugin-vue": "^5.0.4",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",

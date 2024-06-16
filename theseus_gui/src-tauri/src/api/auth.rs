@@ -27,11 +27,11 @@ pub async fn auth_login(app: tauri::AppHandle) -> Result<Option<Credentials>> {
     if let Some(window) = app.get_window("signin") {
         window.close()?;
     }
-
-    let window = tauri::WindowBuilder::new(
+    
+    let window = tauri::WebviewWindowBuilder::new(
         &app,
         "signin",
-        tauri::WindowUrl::External(flow.redirect_uri.parse().map_err(
+        tauri::WebviewUrl::External(flow.redirect_uri.parse().map_err(
             |_| {
                 theseus::ErrorKind::OtherError(
                     "Error parsing auth redirect URL".to_string(),
@@ -52,19 +52,19 @@ pub async fn auth_login(app: tauri::AppHandle) -> Result<Option<Credentials>> {
             // user closed window, cancelling flow
             return Ok(None);
         }
-
+        
         if window
-            .url()
+            .url()?
             .as_str()
             .starts_with("https://login.live.com/oauth20_desktop.srf")
         {
             if let Some((_, code)) =
-                window.url().query_pairs().find(|x| x.0 == "code")
+                window.url()?.query_pairs().find(|x| x.0 == "code")
             {
                 window.close()?;
                 let val =
                     minecraft_auth::finish_login(&code.clone(), flow).await?;
-
+        
                 return Ok(Some(val));
             }
         }

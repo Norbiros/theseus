@@ -11,7 +11,7 @@ build = "build.rs"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [build-dependencies]
-tauri-build = { version = "1.3", features = [] }
+tauri-build = { version = "2.0.0-beta.17", features = ["codegen"] }
 
 [dependencies]
 theseus = { path = "../../theseus", features = ["tauri"] }
@@ -19,10 +19,13 @@ theseus = { path = "../../theseus", features = ["tauri"] }
 serde_json = "1.0"
 serde = { version = "1.0", features = ["derive"] }
 
-tauri = { version = "1.6", features = ["app-all", "devtools", "dialog", "dialog-confirm", "dialog-open", "macos-private-api", "os-all", "protocol-asset", "shell-open", "updater", "window-close", "window-create", "window-hide", "window-maximize", "window-minimize", "window-set-decorations", "window-show", "window-start-dragging", "window-unmaximize", "window-unminimize"] }
-tauri-plugin-single-instance = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "v1" }
-tauri-plugin-window-state = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "v1" }
-tauri-plugin-deep-link = "0.1.2"
+tauri = { version = "2.0.0-beta.22", features = [ "devtools", "macos-private-api", "protocol-asset", "unstable", "webview-data-url"] }
+tauri-plugin-single-instance = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "v2" }
+tauri-plugin-window-state = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "v2" }
+tauri-plugin-deep-link = "2.0.0-beta.7"
+tauri-plugin-dialog = "2.0.0-beta.9"
+tauri-plugin-os = "2.0.0-beta.6"
+tauri-plugin-shell = "2.0.0-beta.7"
 
 tokio = { version = "1", features = ["full"] }
 thiserror = "1.0"
